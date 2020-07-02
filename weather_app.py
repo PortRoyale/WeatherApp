@@ -41,11 +41,18 @@ def clicked():
     weather = fetch_weather(city_state)
     print(weather)
 
-    wthr2 = Label(window, text = weather['main']) 
+    wthr2 = Label(window, text = "Temperature: " + str(weather['main']['temp']) + " F") 
     wthr2.grid(column=1, row=3)
-    
-    wthr3 = Label(window, text = weather['wind']) 
+
+    wthr3 = Label(window, text = "Humidity: " + str(weather['main']['humidity']) + " %") 
     wthr3.grid(column=1, row=4)
+    
+    wthr4 = Label(window, text = "Wind: " + str(weather['wind']['speed']) + " mph at " + str(weather['wind']['deg']) + " degrees") 
+    wthr4.grid(column=1, row=5)
+
+    wthr5 = Label(window, text = "Clouds: " + str(weather['clouds']['all']) + " % cloudy") 
+    wthr5.grid(column=1, row=6)
+
 
 btn = Button(window, text="Retrieve Weather", command = clicked)
 btn.grid(column=2, row=0)
