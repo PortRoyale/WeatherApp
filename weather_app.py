@@ -78,17 +78,25 @@ def clicked():
     weather = fetch_weather(city_state)
     print(weather)
 
+    wthr1 = Label(window, text = "Currently: " + weather['weather'][0]['main'] + ", " + weather['weather'][0]['description']) 
+    wthr1.grid(column=1, row=3)
+
     wthr2 = Label(window, text = "Temperature: " + str(weather['main']['temp']) + " F") 
-    wthr2.grid(column=1, row=3)
+    wthr2.grid(column=1, row=4)
 
     wthr3 = Label(window, text = "Humidity: " + str(weather['main']['humidity']) + " %") 
-    wthr3.grid(column=1, row=4)
+    wthr3.grid(column=1, row=5)
     
     wthr4 = Label(window, text = "Wind: " + str(weather['wind']['speed']) + " mph " + directions(weather['wind']['deg'])) 
-    wthr4.grid(column=1, row=5)
+    wthr4.grid(column=1, row=6)
 
     wthr5 = Label(window, text = "Clouds: " + str(weather['clouds']['all']) + " % cloudy") 
-    wthr5.grid(column=1, row=6)
+    wthr5.grid(column=1, row=7)
+
+    # if (weather['weather']['main'] == 'Rain'):
+    #     wthr6 = Label(window, text = "Preciptation: " + str(weather['weather']['main']) + " via" + str(weather['weather']['description'])) 
+    #     wthr6.grid(column=1, row=7)
+
 
 
 btn = Button(window, text="Retrieve Weather", command = clicked)
