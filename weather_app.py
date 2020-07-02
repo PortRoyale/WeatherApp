@@ -23,6 +23,43 @@ def fetch_weather(city_state):
     weather_data = json.loads(response.text)
     return weather_data
 
+def directions(degree_str):
+    deg = int(degree_str)
+    if (348.75 < deg or degree_str <= 11.25):
+        return "N"
+    elif (11.25 < deg <= 33.75):
+        return "NNE"
+    elif (33.75 < deg <= 56.25):
+        return "NE"
+    elif (56.25 < deg <= 78.75):
+        return "ENE"
+    elif (78.75 < deg <= 101.25):
+        return "E"
+    elif (101.25 < deg <= 123.75):
+        return "ESE"
+    elif (123.75 < deg <= 146.25):
+        return "SE"
+    elif (146.25 < deg <= 168.75):
+        return "SSE"
+    elif (168.75 < deg <= 191.25):
+        return "S"
+    elif (191.25 < deg <= 213.75):
+        return "SSW"
+    elif (213.75 < deg <= 236.25):
+        return "SW"
+    elif (236.25 < deg <= 259.75):
+        return("WSW")
+    elif (258.75 < deg <= 281.25):
+        return "W"
+    elif (281.25 < deg <= 303.75):
+        return "WNW"
+    elif (303.75 < deg <= 326.25):
+        return "NW"
+    elif (326.25 < deg <= 348.75):
+        return "NNW"
+    else:
+        return "N/A"
+
 
 # TKinter Weather App
 window = Tk()
@@ -47,7 +84,7 @@ def clicked():
     wthr3 = Label(window, text = "Humidity: " + str(weather['main']['humidity']) + " %") 
     wthr3.grid(column=1, row=4)
     
-    wthr4 = Label(window, text = "Wind: " + str(weather['wind']['speed']) + " mph at " + str(weather['wind']['deg']) + " degrees") 
+    wthr4 = Label(window, text = "Wind: " + str(weather['wind']['speed']) + " mph " + directions(weather['wind']['deg'])) 
     wthr4.grid(column=1, row=5)
 
     wthr5 = Label(window, text = "Clouds: " + str(weather['clouds']['all']) + " % cloudy") 
