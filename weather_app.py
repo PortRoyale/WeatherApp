@@ -10,7 +10,7 @@ from tkinter import *
 url = "https://community-open-weather-map.p.rapidapi.com/weather"
 
 
-# my RapidAPI credentials
+# my RapidAPI credentials for Open-Weather's API
 headers = {
     'x-rapidapi-host': "community-open-weather-map.p.rapidapi.com",
     'x-rapidapi-key': "f51bCvoKijmshiTNqux0PbeIpalLp1NynqDjsngk4K3TgypbZ3"
@@ -24,41 +24,33 @@ def fetch_weather(city_state):
     return weather_data
 
 
-# clicks = False
-
-# TKinter
+# TKinter Weather App
 window = Tk()
 window.title("Weather Application")
-# window.geometry('400x250')
+# window.geometry('500x200')
 
 lbl = Label(window, text="Enter City, State:")
 lbl.grid(column=0, row=0)
 
-txt = Entry(window,width=30)
+txt = Entry(window,width=40)
 txt.grid(column=1, row=0)
-
-
 
 # Retrieve the city, state data upon click
 def clicked():
-	city_state = txt.get()
-	weather = fetch_weather(city_state)
-	print(weather)
+    city_state = txt.get()
+    weather = fetch_weather(city_state)
+    print(weather)
 
-	wthr = Label(window, text = {"{weather}"}) 
-	wthr.grid(column=2, row=2)
-	
+    wthr2 = Label(window, text = weather['main']) 
+    wthr2.grid(column=1, row=3)
+    
+    wthr3 = Label(window, text = weather['wind']) 
+    wthr3.grid(column=1, row=4)
 
 btn = Button(window, text="Retrieve Weather", command = clicked)
 btn.grid(column=2, row=0)
 
-
-# if (clicks == True):
-# 	lbl2 = Label(window, text="You Clicked!")
-# 	lbl2.grid(column=0, row=7)
-	
-
 window.mainloop()
 
 
-
+# GOAL: COMPLETED
