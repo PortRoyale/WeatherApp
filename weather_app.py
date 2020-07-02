@@ -17,29 +17,46 @@ headers = {
     }
 
 
+def fetch_weather(city_state):
+    querystring = {"units":"imperial","q":{city_state}}
+    response = requests.request("GET", url, headers=headers, params=querystring)
+    weather_data = json.loads(response.text)
+    return weather_data
+
+
+# clicks = False
+
 # TKinter
 window = Tk()
-
 window.title("Weather Application")
-window.geometry('400x250')
+# window.geometry('400x250')
 
 lbl = Label(window, text="Enter City, State:")
-lbl.grid(column=0, row=4)
+lbl.grid(column=0, row=0)
+
+txt = Entry(window,width=30)
+txt.grid(column=1, row=0)
+
+
 
 # Retrieve the city, state data upon click
 def clicked():
-    city = txt.get()
-    querystring = {"units":"imperial","q":{city}}
-    response = requests.request("GET", url, headers=headers, params=querystring)
-    dictionary = json.loads(response.text)
-    print(dictionary)
+	city_state = txt.get()
+	weather = fetch_weather(city_state)
+	print(weather)
+
+	wthr = Label(window, text = {"{weather}"}) 
+	wthr.grid(column=2, row=2)
+	
 
 btn = Button(window, text="Retrieve Weather", command = clicked)
-btn.grid(column=2, row=4)
+btn.grid(column=2, row=0)
 
-txt = Entry(window,width=30)
-txt.grid(column=1, row=4)
-txt.focus()
+
+# if (clicks == True):
+# 	lbl2 = Label(window, text="You Clicked!")
+# 	lbl2.grid(column=0, row=7)
+	
 
 window.mainloop()
 
