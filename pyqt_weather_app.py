@@ -9,6 +9,23 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
+import requests
+import json
+
+
+# API 
+url = "https://community-open-weather-map.p.rapidapi.com/weather"
+
+
+# my RapidAPI credentials for Open-Weather's API
+headers = {
+    'x-rapidapi-host': "community-open-weather-map.p.rapidapi.com",
+    'x-rapidapi-key': "f51bCvoKijmshiTNqux0PbeIpalLp1NynqDjsngk4K3TgypbZ3"
+    }
+
+
+
+
 
 
 class Ui_MainWindow(object):
@@ -21,6 +38,8 @@ class Ui_MainWindow(object):
         self.weatherButton = QtWidgets.QPushButton(self.centralwidget)
         self.weatherButton.setGeometry(QtCore.QRect(480, 30, 93, 31))
         self.weatherButton.setObjectName("weatherButton")
+        self.weatherButton.clicked.connect(self.clickMethod)
+        # pybutton.clicked.connect(self.clickMethod)
         self.entryLabel = QtWidgets.QLabel(self.centralwidget)
         self.entryLabel.setGeometry(QtCore.QRect(30, 30, 161, 31))
         self.entryLabel.setObjectName("entryLabel")
@@ -45,9 +64,59 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
+        MainWindow.setWindowTitle(_translate("MainWindow", "WeatherApp"))
         self.weatherButton.setText(_translate("MainWindow", "Get Weather"))
         self.entryLabel.setText(_translate("MainWindow", "Enter Location (City, State):"))
+
+    def clickMethod(self):
+        location = self.lineEdit.text()
+        print(location)
+        weather = self.fetch_weather(location)
+        print(weather)
+
+    def fetch_weather(self, city_state): 
+        querystring = {"units":"imperial","q":{city_state}}
+        response = requests.request("GET", url, headers=headers, params=querystring)
+        weather_data = json.loads(response.text)
+        return weather_data
+
+    def directions(degree_str):
+        deg = int(degree_str)
+        if (348.75 < deg or degree_str <= 11.25):
+            return "N"
+        elif (11.25 < deg <= 33.75):
+            return "NNE"
+        elif (33.75 < deg <= 56.25):
+            return "NE"
+        elif (56.25 < deg <= 78.75):
+            return "ENE"
+        elif (78.75 < deg <= 101.25):
+            return "E"
+        elif (101.25 < deg <= 123.75):
+            return "ESE"
+        elif (123.75 < deg <= 146.25):
+            return "SE"
+        elif (146.25 < deg <= 168.75):
+            return "SSE"
+        elif (168.75 < deg <= 191.25):
+            return "S"
+        elif (191.25 < deg <= 213.75):
+            return "SSW"
+        elif (213.75 < deg <= 236.25):
+            return "SW"
+        elif (236.25 < deg <= 259.75):
+            return("WSW")
+        elif (258.75 < deg <= 281.25):
+            return "W"
+        elif (281.25 < deg <= 303.75):
+            return "WNW"
+        elif (303.75 < deg <= 326.25):
+            return "NW"
+        elif (326.25 < deg <= 348.75):
+            return "NNW"
+        else:
+            return "N/A"
+
 
 
 if __name__ == "__main__":
