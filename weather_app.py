@@ -71,6 +71,7 @@ lbl.grid(column=0, row=0)
 
 txt = Entry(window,width=40)
 txt.grid(column=1, row=0)
+txt.insert(0, 'Springfield, Illinois') # pre-populate with my home city, state
 
 # Retrieve the city, state data upon click
 def clicked():
