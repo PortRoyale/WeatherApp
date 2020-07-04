@@ -33,33 +33,65 @@ class Ui_MainWindow(object):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(600, 380)
         MainWindow.setMinimumSize(QtCore.QSize(600, 380))
+
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
+
         self.weatherButton = QtWidgets.QPushButton(self.centralwidget)
         self.weatherButton.setGeometry(QtCore.QRect(480, 30, 93, 31))
         self.weatherButton.setObjectName("weatherButton")
         self.weatherButton.clicked.connect(self.clickMethod)
-        # pybutton.clicked.connect(self.clickMethod)
+
         self.entryLabel = QtWidgets.QLabel(self.centralwidget)
         self.entryLabel.setGeometry(QtCore.QRect(30, 30, 161, 31))
         self.entryLabel.setObjectName("entryLabel")
+
         self.lineEdit = QtWidgets.QLineEdit(self.centralwidget)
         self.lineEdit.setGeometry(QtCore.QRect(200, 30, 271, 31))
         self.lineEdit.setObjectName("lineEdit")
+        
         MainWindow.setCentralWidget(self.centralwidget)
+        
         self.menubar = QtWidgets.QMenuBar(MainWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 600, 26))
         self.menubar.setObjectName("menubar")
+        
         self.menu = QtWidgets.QMenu(self.menubar)
         self.menu.setTitle("")
         self.menu.setObjectName("menu")
         MainWindow.setMenuBar(self.menubar)
+        
         self.statusbar = QtWidgets.QStatusBar(MainWindow)
         self.statusbar.setObjectName("statusbar")
         MainWindow.setStatusBar(self.statusbar)
         self.menubar.addAction(self.menu.menuAction())
 
+        font = QtGui.QFont()
+        font.setFamily("Consolas")
+        font.setPointSize(16)
+        self.lbl0 = QtWidgets.QLabel(self.centralwidget)
+        self.lbl0.setGeometry(QtCore.QRect(150, 110, 400,25))
+        self.lbl0.setFont(font)
+        self.lbl0.setObjectName("lbl0")
+        self.lbl1 = QtWidgets.QLabel(self.centralwidget)
+        self.lbl1.setGeometry(QtCore.QRect(150, 150, 400, 25))
+        self.lbl1.setFont(font)
+        self.lbl1.setObjectName("lbl1")
+        self.lbl2 = QtWidgets.QLabel(self.centralwidget)
+        self.lbl2.setGeometry(QtCore.QRect(150, 190, 400, 25))
+        self.lbl2.setFont(font)
+        self.lbl2.setObjectName("lbl2")
+        self.lbl3 = QtWidgets.QLabel(self.centralwidget)
+        self.lbl3.setGeometry(QtCore.QRect(150, 230, 400, 25))
+        self.lbl3.setFont(font)
+        self.lbl3.setObjectName("lbl3")
+        self.lbl4 = QtWidgets.QLabel(self.centralwidget)
+        self.lbl4.setGeometry(QtCore.QRect(150, 270, 400, 25))
+        self.lbl4.setFont(font)
+        self.lbl4.setObjectName("lbl4")
+
         self.retranslateUi(MainWindow)
+        
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
@@ -68,11 +100,19 @@ class Ui_MainWindow(object):
         self.weatherButton.setText(_translate("MainWindow", "Get Weather"))
         self.entryLabel.setText(_translate("MainWindow", "Enter Location (City, State):"))
 
-    def clickMethod(self):
+
+    def clickMethod(self, MainWindow):
+        _translate = QtCore.QCoreApplication.translate
         location = self.lineEdit.text()
-        print(location)
         weather = self.fetch_weather(location)
         print(weather)
+        self.lbl0.setText(_translate("MainWindow", "{}".format(weather['weather'][0]['description'])))
+        self.lbl1.setText(_translate("MainWindow", "Temperature: {}{}F".format(weather['main']['temp'], chr(176))))
+        self.lbl2.setText(_translate("MainWindow", "Feels like: {}{}F".format(weather['main']['feels_like'], chr(176))))
+        self.lbl3.setText(_translate("MainWindow", "Humidity: {}%".format(weather['main']['humidity'])))
+        self.lbl4.setText(_translate("MainWindow", "Wind: {} mph {}".format(weather['wind']['speed'], self.directions(weather['wind']['deg']))))
+        
+
 
     def fetch_weather(self, city_state): 
         querystring = {"units":"imperial","q":{city_state}}
@@ -80,7 +120,7 @@ class Ui_MainWindow(object):
         weather_data = json.loads(response.text)
         return weather_data
 
-    def directions(degree_str):
+    def directions(self, degree_str):
         deg = int(degree_str)
         if (348.75 < deg or degree_str <= 11.25):
             return "N"
