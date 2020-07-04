@@ -94,6 +94,7 @@ class Ui_MainWindow(object):
         
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
+
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "WeatherApp"))
@@ -105,7 +106,7 @@ class Ui_MainWindow(object):
         _translate = QtCore.QCoreApplication.translate
         location = self.lineEdit.text()
         weather = self.fetch_weather(location)
-        print(weather)
+        # print(weather)
         self.lbl0.setText(_translate("MainWindow", "{}".format(weather['weather'][0]['description'])))
         self.lbl1.setText(_translate("MainWindow", "Temperature: {}{}F".format(weather['main']['temp'], chr(176))))
         self.lbl2.setText(_translate("MainWindow", "Feels like: {}{}F".format(weather['main']['feels_like'], chr(176))))
@@ -119,6 +120,7 @@ class Ui_MainWindow(object):
         response = requests.request("GET", url, headers=headers, params=querystring)
         weather_data = json.loads(response.text)
         return weather_data
+
 
     def directions(self, degree_str):
         deg = int(degree_str)
